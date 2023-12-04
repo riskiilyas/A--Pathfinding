@@ -3,7 +3,7 @@ import math
 import heapq
 
 # Colors
-WHITE = (255, 255, 255)
+WHITE = (210, 255, 210)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -61,8 +61,23 @@ class Node:
             self.color = PURPLE
 
     def draw(self, win):
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width), 0)  # Draw filled rectangle
-        pygame.draw.rect(win, BLACK, (self.x, self.y, self.width, self.width), 1)  # Draw rectangle border
+        if self.color == BLUE:
+            # Draw image1.png if the node is blue
+            img = pygame.image.load("enemy.png")
+        
+            win.blit(img, (self.x, self.y))
+        elif self.color == RED:
+            # Draw image2.png if the node is red
+            img = pygame.image.load("player.png")
+            win.blit(img, (self.x, self.y))
+        elif self.color == BLACK:
+            # Draw image2.png if the node is red
+            img = pygame.image.load("block.png")
+            win.blit(img, (self.x, self.y))
+        else:
+            # Draw a filled rectangle with the specified color
+            pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width), 0)
+            pygame.draw.rect(win, BLACK, (self.x, self.y, self.width, self.width), 1)
 
     def update_neighbors(self, grid):
         self.neighbors = []
@@ -170,13 +185,19 @@ def draw(win, grid, rows, width, mode, start, end):
     elif mode == 2:
         pygame.draw.rect(win, GREEN, (0, 0, width // rows, width // rows), 2)
     elif mode == 3:
-        pygame.draw.rect(win, BLACK, (0, 0, width // rows, width // rows), 2)
+        img = pygame.image.load("block.png")
+        win.blit(img, (width // rows, width // rows))
+        #pygame.draw.rect(win, BLACK, (0, 0, width // rows, width // rows), 2)
 
     if start:
-        pygame.draw.rect(win, BLUE, (start.x, start.y, start.width, start.width), 0)
+        img = pygame.image.load("player.png")
+        win.blit(img, (start.x, start.y))
+        #pygame.draw.rect(win, BLUE, (start.x, start.y, start.width, start.width), 0)
 
     if end:
-        pygame.draw.rect(win, RED, (end.x, end.y, end.width, end.width), 0)
+        img = pygame.image.load("enemy.png")
+        win.blit(img, (end.x, end.y))
+        #pygame.draw.rect(win, RED, (end.x, end.y, end.width, end.width), 0)
 
 
 def get_clicked_pos(pos, rows, width):
@@ -257,5 +278,5 @@ if __name__ == "__main__":
     pygame.init()
     WIDTH = 800
     WIN = pygame.display.set_mode((WIDTH, WIDTH))
-    pygame.display.set_caption("A* Pathfinding Visualization")
+    pygame.display.set_caption("A* Pathfinding Simulation")
     main(WIN, WIDTH)
