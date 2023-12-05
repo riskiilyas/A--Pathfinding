@@ -4,7 +4,7 @@ import heapq
 
 # Colors
 WHITE = (210, 255, 210)
-BLACK = (0, 0, 0)
+BLACK = (110, 155, 110)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
@@ -81,13 +81,14 @@ class Node:
 
     def update_neighbors(self, grid):
         self.neighbors = []
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                new_row, new_col = self.row + i, self.col + j
-                if 0 <= new_row < self.total_rows and 0 <= new_col < self.total_rows:
-                    neighbor = grid[new_row][new_col]
-                    if neighbor != self and not neighbor.is_barrier():
-                        self.neighbors.append(neighbor)
+        dirs = [(1,0),(-1,0),(0,1),(0,-1)]#,(1,1),(1,-1),(-1,1),(-1,-1)]
+        
+        for dir in dirs:
+            new_row, new_col = self.row + dir[0], self.col + dir[1]
+            if 0 <= new_row < self.total_rows and 0 <= new_col < self.total_rows:
+                neighbor = grid[new_row][new_col]
+                if neighbor != self and not neighbor.is_barrier():
+                    self.neighbors.append(neighbor)
 
     def __lt__(self, other):
         return False
@@ -177,7 +178,7 @@ def draw(win, grid, rows, width, mode, start, end):
         for node in row:
             node.draw(win)
 
-    draw_grid(win, rows, width)
+    #draw_grid(win, rows, width)
     pygame.display.update()
 
     if mode == 1:
@@ -212,7 +213,6 @@ def get_clicked_pos(pos, rows, width):
 def main(win, width):
     ROWS = 50
     grid = make_grid(ROWS, width)
-
     start = None
     end = None
     mode = 1  # 1: Start Node, 2: End Node, 3: Block Node
