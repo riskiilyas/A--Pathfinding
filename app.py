@@ -270,6 +270,14 @@ def main(win, width):
                     mode = 2  # End Node
                 elif event.key == pygame.K_3:
                     mode = 3  # Block Node
+                elif event.key == pygame.K_r:
+                    grid = make_grid(ROWS, width)
+                    start = None
+                    end = None
+                    mode = 1  # 1: Start Node, 2: End Node, 3: Block Node
+
+                    run = True
+                    started = False
 
     pygame.quit()
 
